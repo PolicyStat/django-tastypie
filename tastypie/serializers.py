@@ -371,7 +371,11 @@ class Serializer(object):
         options = options or {}
         data = self.to_simple(data, options)
 
-        return djangojson.json.dumps(data, cls=djangojson.DjangoJSONEncoder, sort_keys=True, ensure_ascii=False)
+        try:
+            dumps = djangojson.json.dumps
+        except AttributeError:
+            dumps = djangojson.simplejson.dumps
+        return dumps(data, cls=djangojson.DjangoJSONEncoder, sort_keys=True, ensure_ascii=False)
 
     def from_json(self, content):
         """

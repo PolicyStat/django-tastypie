@@ -7,7 +7,11 @@ from django.conf import settings
 from django.contrib.auth.models import AnonymousUser, User
 from django.http import HttpRequest
 from django.test import TestCase
-from django.test.testcases import skipIf
+try:
+    from django.test.testcases import skipIf
+except ImportError:  # Django 1.4
+    from django.utils.unittest import skipIf
+
 from tastypie.authentication import Authentication, BasicAuthentication, ApiKeyAuthentication, SessionAuthentication, DigestAuthentication, OAuthAuthentication, MultiAuthentication
 from tastypie.http import HttpUnauthorized
 from tastypie.models import ApiKey, create_api_key
